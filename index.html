@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Memory Card Game For Pan 💖</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  .card {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  .card.flip {
+    transform: rotateY(180deg);
+  }
+  .front, .back {
+    backface-visibility: hidden;
+  }
+  .back {
+    transform: rotateY(180deg);
+  }
+</style>
+</head>
+
+<body class="bg-gradient-to-r from-pink-200 via-red-200 to-pink-300 min-h-screen flex flex-col items-center justify-center">
+
+<h1 class="text-3xl font-bold text-white mb-2">🫰 ဂိမ်းနိုင်ရင် အာဘွား ရပါမယ် 😛</h1>
+<p id="timer" class="text-white mb-4">⏱ Time: 0s</p>
+
+<div id="gameBoard" class="grid grid-cols-4 gap-4"></div>
+
+<button onclick="startGame()" class="mt-6 bg-white text-pink-600 px-5 py-2 rounded-xl shadow-lg hover:scale-105 transition">
+Restart 💞
+</button>
+
+<!-- Love Message Modal -->
+<div id="loveModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+  <div class="bg-white p-6 rounded-2xl text-center shadow-xl animate-bounce">
+    <h2 class="text-2xl text-pink-600 mb-3">👀 ArrBwarr Par mama Pan 😚</h2>
+    <p class="text-gray-700">I love you more than words can say, and I miss you every moment.</p>
+    <button onclick="closeModal()" class="mt-4 bg-pink-500 text-white px-4 py-2 rounded-lg">Close</button>
+  </div>
+</div>
+
+
+<!-- Game Over Modal -->
+<div id="gameOverModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+  <div class="bg-white p-6 rounded-2xl text-center shadow-xl transform scale-75 opacity-0 transition duration-500" id="gameOverBox">
+    
+    <h2 class="text-2xl text-pink-600 mb-2">☹️ နိုင်အောင်ပြန်ဆော့ပါ မမလေး 💕</h2>
+    <p class="text-gray-600 mb-4">Time ran out... but my love for you never will 💓</p>
+
+    <button onclick="restartGame()" class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:scale-105 transition">
+      Play Again 🤍
+    </button>
+
+  </div>
+</div>
+
+<!-- Music -->
+<audio id="bgMusic" autoplay loop>
+  <source src="play.mp3" type="audio/mp3">
+</audio>
+
+<script>
+/* 👉 Replace with YOUR photos */
+const images = [
+  "p7.jpg",
+  "p2.jpg",
+  "p3.jpg",
+  "p4.jpg",
+  "p5.jpg",
+  "p8.jpg"
+];
+
+let cards = [...images, ...images];
+let flipped = [];
+let matched = 0;
+let time = 90; // 1 min 30 sec
+let timerInterval;
+
+/* Shuffle */
+function shuffle(array) {
+  return array.sort(() => 0.5 - Math.random());
+}
+
+/* Create Card */
+function createCard(src) {
+  const card = document.createElement("div");
+  card.className = "card w-24 h-24 relative cursor-pointer";
+
+  card.innerHTML = `
+    <div class="front absolute w-full h-full bg-white rounded-xl flex items-center justify-center text-xl shadow">💖</div>
+    <div class="back absolute w-full h-full rounded-xl overflow-hidden shadow">
+      <img src="${src}" class="w-full h-full object-cover"/>
+    </div>
+  `;
+
+  card.addEventListener("click", () => flipCard(card, src));
+  return card;
+}
+
+/* Flip */
+function flipCard(card, src) {
+  if (time <= 0) return; // ⛔ stop if time over
+
+  if (flipped.length < 2 && !card.classList.contains("flip")) {
+    card.classList.add("flip");
+    flipped.push({card, src});
+
+    if (flipped.length === 2) {
+      setTimeout(checkMatch, 700);
+    }
+  }
+}
+
+/* Check Match */
+function checkMatch() {
+  const [a, b] = flipped;
+
+  if (a.src === b.src) {
+    matched += 2;
+    if (matched === cards.length) {
+      clearInterval(timerInterval);
+      document.getElementById("loveModal").classList.remove("hidden");
+    }
+  } else {
+    a.card.classList.remove("flip");
+    b.card.classList.remove("flip");
+  }
+
+  flipped = [];
+}
+
+/* Timer */
+function startTimer() {
+  clearInterval(timerInterval);
+  time = 10;
+
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    document.getElementById("timer").innerText =
+      `⏱ Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+    time--;
+
+    if (time < 0) {
+      clearInterval(timerInterval);
+
+      // Disable clicking
+      document.querySelectorAll(".card").forEach(card => {
+        card.style.pointerEvents = "none";
+      });
+
+      setTimeout(() => {
+        showGameOverModal();
+      }, 300);
+    }
+  }, 1000);
+}
+
+/* Start Game */
+function startGame() {
+  const board = document.getElementById("gameBoard");
+  board.innerHTML = "";
+  flipped = [];
+  matched = 0;
+
+  shuffle(cards).forEach(img => {
+    board.appendChild(createCard(img));
+  });
+
+  startTimer(); // ✅ restart timer
+}
+
+/* Modal */
+function closeModal() {
+  document.getElementById("loveModal").classList.add("hidden");
+}
+
+startGame();
+
+
+function showGameOverModal() {
+  const modal = document.getElementById("gameOverModal");
+  const box = document.getElementById("gameOverBox");
+
+  modal.classList.remove("hidden");
+
+  setTimeout(() => {
+    modal.classList.add("flex");
+    box.classList.remove("scale-75", "opacity-0");
+    box.classList.add("scale-100", "opacity-100");
+  }, 50);
+}
+
+function restartGame() {
+  const modal = document.getElementById("gameOverModal");
+  const box = document.getElementById("gameOverBox");
+
+  box.classList.add("scale-75", "opacity-0");
+
+  setTimeout(() => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+    startGame();
+  }, 300);
+}
+
+
+</script>
+
+</body>
+</html>
