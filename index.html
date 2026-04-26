@@ -24,7 +24,7 @@
 
 <body class="bg-gradient-to-r from-pink-200 via-red-200 to-pink-300 min-h-screen flex flex-col items-center justify-center">
 
-<h1 class="text-3xl font-bold text-white mb-2">🫰 ဂိမ်းနိုင်ရင် အာဘွား ရပါမယ် 😛</h1>
+<h1 class="text-3xl font-bold text-white mb-2">😻 ဂိမ်းနိုင်ရင် အာဘွား ရပါမယ် 😛</h1>
 <p id="timer" class="text-white mb-4">⏱ Time: 0s</p>
 
 <div id="gameBoard" class="grid grid-cols-4 gap-4"></div>
@@ -58,7 +58,7 @@ Restart 💞
 </div>
 
 <!-- Music -->
-<audio id="bgMusic" autoplay loop>
+<audio id="bgMusic" loop>
   <source src="play.mp3" type="audio/mp3">
 </audio>
 
@@ -173,6 +173,10 @@ function startGame() {
   });
 
   startTimer(); // ✅ restart timer
+
+    // 🎵 play music safely
+  const music = document.getElementById("bgMusic");
+  music.play().catch(() => {});
 }
 
 /* Modal */
