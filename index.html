@@ -29,7 +29,7 @@
   
   <div class="bg-white p-8 rounded-2xl text-center shadow-xl animate-pulse">
     <h1 class="text-3xl text-pink-600 mb-4">☃️ Game Plan & Rule 💕</h1>
-    <p class="text-gray-600 mb-6">ဂိမ်းထဲမှာ ပန့်ရဲ့ ပုံလေးတွေထည့်ပေးထားတယ် တူတာကိုလိုက်ရှာရမှာပါ။ အချိန်30secအတွင်းတူတာရှာရပါမယ်။ 🫶</p>
+    <p class="text-gray-600 mb-6">ဂိမ်းထဲမှာ ပန့်ရဲ့ ပုံလေးတွေထည့်ပေးထားတယ် တူတာကိုလိုက်ရှာရမှာပါ။ အချိန်15secအတွင်းတူတာရှာရပါမယ်။ 🫶</p>
 
     <button onclick="startGame()" 
       class="bg-pink-500 text-white px-6 py-3 rounded-xl text-lg hover:scale-105 transition">
@@ -150,7 +150,7 @@ function checkMatch() {
 /* Timer */
 function startTimer() {
   clearInterval(timerInterval);
-  time = 30;
+  time = 15;
 
   timerInterval = setInterval(() => {
     let minutes = Math.floor(time / 60);
