@@ -28,6 +28,20 @@
   .love-modal-box {
     max-width: calc(100vw - 2rem);
   }
+  .heart {
+  position: fixed;
+  top: -40px;
+  z-index: 100;
+  pointer-events: none;
+  animation: fall 4s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
 </style>
 </head>
 
@@ -163,7 +177,8 @@ function checkMatch() {
     matched += 2;
     if (matched === cards.length) {
       clearInterval(timerInterval);
-      document.getElementById("loveModal").classList.remove("hidden");
+       makeHearts();
+      const modal = document.getElementById("loveModal");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
     }
@@ -178,7 +193,7 @@ function checkMatch() {
 /* Timer */
 function startTimer() {
   clearInterval(timerInterval);
-  time = 15;
+  time = 150;
 
   timerInterval = setInterval(() => {
     let minutes = Math.floor(time / 60);
@@ -285,6 +300,25 @@ function enableMusic() {
 
 // play music on first user interaction
 document.addEventListener("click", enableMusic);
+
+function makeHearts() {
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.textContent = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+    heart.style.animationDelay = Math.random() * 2 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 6000);
+  }
+}
 
 </script>
 
