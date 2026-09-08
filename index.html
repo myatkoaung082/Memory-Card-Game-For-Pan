@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Memory Card Game For Pan 💖</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script> -->
 
 <style>
   .card {
@@ -31,7 +31,7 @@
   max-height: 90vh;
   overflow-y: auto;
 }
-  .heart {
+  /* .heart {
   position: fixed;
   top: -40px;
   z-index: 100;
@@ -44,7 +44,7 @@
     transform: translateY(110vh) rotate(360deg);
     opacity: 0;
   }
-}
+} */
 </style>
 </head>
 
@@ -199,8 +199,8 @@ function checkMatch() {
     matched += 2;
     if (matched === cards.length) {
       clearInterval(timerInterval);
-      makeHearts();
-      triggerFireworks();
+      // makeHearts();
+      // triggerFireworks();
       const modal = document.getElementById("loveModal");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
@@ -354,54 +354,54 @@ function enableMusic() {
 // play music on first user interaction
 document.addEventListener("click", enableMusic);
 
-function makeHearts() {
-  for (let i = 0; i < 40; i++) {
-    const heart = document.createElement("div");
+// function makeHearts() {
+//   for (let i = 0; i < 40; i++) {
+//     const heart = document.createElement("div");
 
-    heart.className = "heart";
-    heart.textContent = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random() * 20 + 15 + "px";
-    heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-    heart.style.animationDelay = Math.random() * 2 + "s";
+//     heart.className = "heart";
+//     heart.textContent = "💗";
+//     heart.style.left = Math.random() * 100 + "vw";
+//     heart.style.fontSize = Math.random() * 20 + 15 + "px";
+//     heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+//     heart.style.animationDelay = Math.random() * 2 + "s";
 
-    document.body.appendChild(heart);
+//     document.body.appendChild(heart);
 
-    setTimeout(() => {
-      heart.remove();
-    }, 6000);
-  }
-}
+//     setTimeout(() => {
+//       heart.remove();
+//     }, 6000);
+//   }
+// }
 
-function triggerFireworks() {
-      // မီးပန်း ပစ်ထုတ်မည့် ကြာချိန် (3 စက္ကန့်)
-      const duration = 3 * 1000;
-      const animationEnd = Date.now() + duration;
+// function triggerFireworks() {
+//       // မီးပန်း ပစ်ထုတ်မည့် ကြာချိန် (3 စက္ကန့်)
+//       const duration = 3 * 1000;
+//       const animationEnd = Date.now() + duration;
 
-      const interval = setInterval(function() {
-        const timeLeft = animationEnd - Date.now();
+//       const interval = setInterval(function() {
+//         const timeLeft = animationEnd - Date.now();
 
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
+//         if (timeLeft <= 0) {
+//           return clearInterval(interval);
+//         }
 
-        const particleCount = 50 * (timeLeft / duration);
+//         const particleCount = 50 * (timeLeft / duration);
 
-        // ဘယ်ဘက်အောက်ထောင့်မှ မီးပန်းပစ်ရန်
-        confetti({
-          particleCount: particleCount,
-          spread: 70,
-          origin: { x: 0.1, y: 0.8 }
-        });
+//         // ဘယ်ဘက်အောက်ထောင့်မှ မီးပန်းပစ်ရန်
+//         confetti({
+//           particleCount: particleCount,
+//           spread: 70,
+//           origin: { x: 0.1, y: 0.8 }
+//         });
 
-        // ညာဘက်အောက်ထောင့်မှ မီးပန်းပစ်ရန်
-        confetti({
-          particleCount: particleCount,
-          spread: 70,
-          origin: { x: 0.9, y: 0.8 }
-        });
-      }, 250);
-    }
+//         // ညာဘက်အောက်ထောင့်မှ မီးပန်းပစ်ရန်
+//         confetti({
+//           particleCount: particleCount,
+//           spread: 70,
+//           origin: { x: 0.9, y: 0.8 }
+//         });
+//       }, 250);
+//     }
 
 </script>
 
